@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <header>
+        <h1 class="header">Natural Disaster Relief</h1>
+        <p class="timer"></p>
+    </header>
+
+    <section class="container">
+
+        <div class="row justify-content-around">
+          <div class="col-12 col-md-3 searchDiv">
+            <div class="input-group flex-nowrap">
+                <input type="text" class="form-control" placeholder="enter Zip Code here" aria-label="Username" aria-describedby="addon-wrapping">
+                <!-- how do I get this button to work? -->
+                <button type="button" class="btn btn-outline-light">Light</button>                 
+              </div>
+          </div>
+
+          <div class="col-12 col-md-8 mapDiv">
+            Map Container
+          </div>
+        </div>
+
+        <!-- <div class="row justify-content-center">
+            <div class="col-12 col-md-9 offset-md-3 resultDiv">.col-md-6 .offset-md-3</div>
+        </div> -->
+
+    </section>
+       
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="./assets/js/script.js"></script>  
+</body>
+</html>
