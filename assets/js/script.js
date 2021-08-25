@@ -1,11 +1,14 @@
 // creating a variable for the zipcode Submit button in HTML
 var zipSubmit = $('.zipSubmitButton');
 
+var searchDiv = $('.searchDiv');
+
 // a div is created underneath zip form
 var zipInputEl = $('<div>');
 
 // variable created for the zip form input value (to display in the created div)
-var zipInput = input.val();
+var zipInput = $('.zipInput');
+zipInput = input.val();
 
 // creating a variable for the container of the map
 var mapDiv = $('.mapDiv');
@@ -15,3 +18,7 @@ var disasterInfoEl = $('<div>');
 
 // creating a variable for the API response of disaster info
 var disasterInfo = $('.disasterInfo');
+
+zipSubmit.on('click', function()) {
+
+}
