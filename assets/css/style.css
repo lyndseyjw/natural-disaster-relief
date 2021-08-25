@@ -1,5 +1,6 @@
 * {
 
+
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -91,3 +92,47 @@ button:hover {
     background-color: rgb(196, 32, 33);
     padding: 15px;
 }
+=======
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+
+
+/* ------ Header & Current Time ------*/
+
+.header {
+    text-align: center;
+    font-size: 50px;
+    margin-top: 15px;
+}
+
+.timer {
+    font-size: 20px;
+    color: brown;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+
+
+/* ------ Search & Map Container ------*/
+
+.container {
+    /* margin: 25px; */
+}
+
+.row {
+    height: 400px;
+}
+
+.searchDiv, .mapDiv {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+

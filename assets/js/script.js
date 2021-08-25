@@ -7,8 +7,11 @@ var searchDiv = $('.searchDiv');
 var zipInputEl = $('<div>');
 
 // variable created for the zip form input value (to display in the created div)
+
 var zipInput = $('.zipInput');
 zipInput = input.val();
+=======
+//    var zipInput = input.val();
 
 // creating a variable for the container of the map
 var mapDiv = $('.mapDiv');
@@ -22,3 +25,15 @@ var disasterInfo = $('.disasterInfo');
 zipSubmit.on('click', function()) {
 
 }
+=======
+
+
+// ------ Timer @ top of webpage ------ //
+
+var liveTime = document.querySelector(".timer");
+var timer = setInterval(function () {
+
+    var currTime = moment().format("dddd, MMMM Do YYYY, h:mm:ss");
+    liveTime.textContent = currTime;
+
+}, 1000); // 10000ms = 1s
