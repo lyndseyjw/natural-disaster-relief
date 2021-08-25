@@ -1,9 +1,103 @@
-/* * {
+* {
+
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+
+    height: 200px;
+    background-color: black;
+}
+
+h1 {
+
+    font-size: 60px;
+    line-height: 200px;
+    text-align: center;
+    /* margin-left: 100px; */
+    color: rgb(196, 32, 33);
+}
+
+.colorGradient1 {
+
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(180deg, black, rgb(196, 32, 33));
+}
+
+.colorGradient2 {
+
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(180deg, rgb(196, 32, 33), black);
+}
+
+.container {
+
+    position: relative;
+}
+
+.mapPhoto {
+
+    width: 100%;
+    height: auto;
+}
+
+.searchDiv {
+
+    position: absolute;
+    z-index: 2;
+    top: 100px;
+    left: 150px;
+}
+
+p {
+
+    color: white;
+    font-size: 28px;
+    margin-bottom: 50px;
+}
+
+.zipInput {
+
+    margin-bottom: 25px;
+    margin-left: 100px;
+    padding: 5px;
+    color: black;
+    /* text-align: center; */
+}
+
+.zipInput:hover {
+
+    background-color: blue;
+    color: white;
+}
+
+.zipSubmitButton {
+
+    margin-left: 170px;
+}
+
+button {
+
+    border-radius: 5px;
+    padding: 10px;
+}
+
+button:hover {
+
+    background-color: rgb(196, 32, 33);
+    padding: 15px;
+}
+/* =======
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     width: 100%;
-} */
+} */ */
 
 
 
@@ -43,4 +137,5 @@ body {
     padding: 5px;
     background-color: whitesmoke;
 }
+
 
