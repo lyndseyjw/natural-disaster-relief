@@ -1,6 +1,5 @@
 * {
 
-
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -76,13 +75,9 @@ p {
     color: white;
 }
 
-.zipSubmitButton {
-
-    margin-left: 170px;
-}
-
 button {
 
+    margin-left: 170px;
     border-radius: 5px;
     padding: 10px;
 }
@@ -92,47 +87,9 @@ button:hover {
     background-color: rgb(196, 32, 33);
     padding: 15px;
 }
-=======
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+
+.mapDiv {
+
     width: 100%;
+    height: 800px;
 }
-
-
-
-/* ------ Header & Current Time ------*/
-
-.header {
-    text-align: center;
-    font-size: 50px;
-    margin-top: 15px;
-}
-
-.timer {
-    font-size: 20px;
-    color: brown;
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 15px;
-}
-
-
-
-/* ------ Search & Map Container ------*/
-
-.container {
-    /* margin: 25px; */
-}
-
-.row {
-    height: 400px;
-}
-
-.searchDiv, .mapDiv {
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-
