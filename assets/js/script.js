@@ -21,6 +21,7 @@ var fireLatitude;
 var fireLongitude;
 var map;
 var fireIcon;
+var airQuality;
 
 var liveTime = document.querySelector(".timer");
 var timer = setInterval(function () {
@@ -48,6 +49,7 @@ zipSubmit.on('click', function () {
             console.log(latitude);
             console.log(longitude);
 
+
             fetch("https://api.ambeedata.com/latest/fire?lat=" + latitude + "&lng=" + longitude, {
                 "method": "GET",
                 "headers": {
@@ -66,6 +68,25 @@ zipSubmit.on('click', function () {
                     console.log(fireLatitude);
                     console.log(fireLongitude);
 
+					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + latitude + "&lng=" + longitude, {
+					"method": "GET",
+					    "headers": {
+							"x-api-key": "bcdc320dee6e51c49f7af1f5a7d6cdb150c47a4475a4df5fc55f94fcbd7b6595",
+							"Content-type": "application/json"
+						}
+					})
+
+						.then(function (response) {
+							return response.json()
+						})
+						.then(function (data) {
+							console.log(data);
+							
+							airQuality=data.stations[0].AQI;
+							console.log(airQuality)
+
+
+
                     $('.mapPhoto').css("display", "none");
                     map = L.map("mapid").setView([latitude, longitude], 13);
 
@@ -73,17 +94,46 @@ zipSubmit.on('click', function () {
                         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     }).addTo(map);
 
+
                     fireIcon = L.icon({
                         
                         iconUrl: 'leaf-green.png',
-                        shadowUrl: 'leaf-shadow.png',
+                        // shadowUrl: 'leaf-shadow.png',
                     
                         iconSize:     [38, 95], // size of the icon
                         // shadowSize:   [50, 64], // size of the shadow
                         iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
                         // shadowAnchor: [4, 62],  // the same for the shadow
+                        iconUrl: './assets/images/fireEMOJI1.png',
+                        //shadowUrl: 'leaf-shadow.png',
+                        
+                        riseOffset: 200,
+                        iconSize:     [38, 45], // size of the icon
+                        //shadowSize:   [50, 64], // size of the shadow
+                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                        //shadowAnchor: [4, 62],  // the same for the shadow
                         popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
                     });
+
+
+                    radiusIcon = L.icon({
+
+                        iconUrl: './assets/images/radiusEMOJI.png',
+                        //shadowUrl: 'leaf-shadow.png',
+
+                        riseOffset: 0,
+                        opacity: 400,
+                        iconSize:     [45, 35], // size of the icon
+                        //shadowSize:   [50, 64], // size of the shadow
+                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                        //shadowAnchor: [4, 62],  // the same for the shadow
+                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+
+                    });
+
+                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup(airQuality);
+                    L.marker([fireLatitude, fireLongitude], {icon: radiusIcon}).addTo(map);
+				})
         })
 
 })
