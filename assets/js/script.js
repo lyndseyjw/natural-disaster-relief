@@ -89,8 +89,9 @@ zipSubmit.on('click', function () {
 							console.log(data);
 							
 							airQuality=data.stations[0].AQI;
-							console.log(airQuality)
-
+							// console.log(typeof airQuality)
+							airQuality= airQuality.toString()
+							console.log(typeof airQuality)
 
 
                     $('.mapPhoto').css("display", "none");
@@ -103,14 +104,7 @@ zipSubmit.on('click', function () {
                     /* ------ Icon for the fire location ------ */
 
                     fireIcon = L.icon({
-                        
-                        iconUrl: 'leaf-green.png',
-                        // shadowUrl: 'leaf-shadow.png',
-                    
-                        iconSize:     [38, 95], // size of the icon
-                        // shadowSize:   [50, 64], // size of the shadow
-                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                        // shadowAnchor: [4, 62],  // the same for the shadow
+  
                         iconUrl: './assets/images/fireEMOJI1.png',
                         title: 'run, run, run.....!!!',
                         //shadowUrl: 'leaf-shadow.png',
@@ -125,8 +119,8 @@ zipSubmit.on('click', function () {
 
                     L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map);
 
-                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup(airQuality);
-    
+                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
+                 
 				})
         })
 
