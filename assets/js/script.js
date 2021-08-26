@@ -7,14 +7,13 @@ var zipInput = $('.zipInput');
 // creating a variable for the zipcode Submit button in HTML
 var zipSubmit = $('.zipSubmitButton');
 
-// creating a variable for the container of the map
-var mapDiv = $('.mapDiv');
+// var zipInput = $('.zipInput');
+// zipInput = input.val();
 
-// creating a variable for the container that will house the API response (air quality & road closures)
-var disasterInfoEl = $('<div>');
+// //    var zipInput = input.val();
 
-// creating a variable for the API response of disaster info
-var disasterInfo = $('.disasterInfo');
+// // creating a variable for the container of the map
+// var mapDiv = $('.mapDiv');
 
 var latitude;
 var longitude;
