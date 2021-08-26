@@ -103,7 +103,7 @@ button:hover {
 
 /* ------ Header & Current Time ------*/
 
-.header {
+/* .header {
     text-align: center;
     font-size: 60px;
     margin-top: 15px;
@@ -119,15 +119,12 @@ button:hover {
 
 body {
     background-color: rgb(223, 245, 255);
-}
+} */
 
 /* ------ Search & Map Container ------*/
 
-.container {
-    /* margin: 25px; */
-}
 
-.row {
+/* .row {
     height: 400px;
 }
 
@@ -136,6 +133,6 @@ body {
     border-radius: 5px;
     padding: 5px;
     background-color: whitesmoke;
-}
+} */
 
 
