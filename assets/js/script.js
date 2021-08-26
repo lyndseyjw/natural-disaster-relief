@@ -15,13 +15,16 @@ var zipInput = $('.zipInput');
 // creating a variable for the container of the map
 var mapDiv = $('#mapid');
 
+// global variables for fetch functions
 var latitude;
 var longitude;
 var fireLatitude;
 var fireLongitude;
 var map;
 var fireIcon;
+var radiusIcon;
 
+// code for live time/date (optional / not in use)
 var liveTime = document.querySelector(".timer");
 var timer = setInterval(function () {
 
@@ -30,12 +33,14 @@ var timer = setInterval(function () {
 
 }, 1000);
 
+/* ------ Initiates all of the fetches ------ */
 zipSubmit.on('click', function () {
 
     var zipInputVal = zipInput.val();
 
     var positionStackURL = 'http://api.positionstack.com/v1/forward?access_key=504536cca90d4c48fb032176b5240b9c&query=' + zipInputVal
 
+    /* ------ fetches the longitude and latitued for the fire/air quality api ------ */
     fetch(positionStackURL)
         .then(function (response) {
             return response.json()
@@ -48,6 +53,7 @@ zipSubmit.on('click', function () {
             console.log(latitude);
             console.log(longitude);
 
+            /* ------ fetches the fire informaiton via latitude/longitude ------ */
             fetch("https://api.ambeedata.com/latest/fire?lat=" + latitude + "&lng=" + longitude, {
                 "method": "GET",
                 "headers": {
@@ -73,12 +79,14 @@ zipSubmit.on('click', function () {
                         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     }).addTo(map);
 
+                    /* ------ Icon for the fire location ------ */
                     fireIcon = L.icon({
                         
                         iconUrl: './assets/images/fireEMOJI1.png',
+                        title: 'run, run, run.....!!!',
                         //shadowUrl: 'leaf-shadow.png',
                         
-                        riseOffset: 200,
+                        riseOffset: 250,
                         iconSize:     [38, 45], // size of the icon
                         //shadowSize:   [50, 64], // size of the shadow
                         iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
@@ -86,24 +94,8 @@ zipSubmit.on('click', function () {
                         popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
                     });
 
-
-                    radiusIcon = L.icon({
-
-                        iconUrl: './assets/images/radiusEMOJI.png',
-                        //shadowUrl: 'leaf-shadow.png',
-
-                        riseOffset: 0,
-                        opacity: 400,
-                        iconSize:     [45, 35], // size of the icon
-                        //shadowSize:   [50, 64], // size of the shadow
-                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                        //shadowAnchor: [4, 62],  // the same for the shadow
-                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-
-                    });
-
                     L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map);
-                    L.marker([fireLatitude, fireLongitude], {icon: radiusIcon}).addTo(map);
+                    
         })
 
 })
