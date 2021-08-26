@@ -83,8 +83,9 @@ zipSubmit.on('click', function () {
 							console.log(data);
 							
 							airQuality=data.stations[0].AQI;
-							console.log(airQuality)
-
+							// console.log(typeof airQuality)
+							airQuality= airQuality.toString()
+							console.log(typeof airQuality)
 
 
                     $('.mapPhoto').css("display", "none");
@@ -131,8 +132,8 @@ zipSubmit.on('click', function () {
 
                     });
 
-                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup(airQuality);
-                    L.marker([fireLatitude, fireLongitude], {icon: radiusIcon}).addTo(map);
+                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
+                 
 				})
         })
 
