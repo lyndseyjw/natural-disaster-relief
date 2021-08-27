@@ -18,6 +18,9 @@ var fireLatitude;
 var fireLongitude;
 var map;
 var fireIcon;
+var radiusIcon;
+var airQuality;
+var fireMessage;
 
 var liveTime = document.querySelector(".timer");
 var timer = setInterval(function () {
@@ -45,6 +48,8 @@ zipSubmit.on('click', function () {
             console.log(latitude);
             console.log(longitude);
 
+
+            /* ------ fetches the fire informaiton via latitude/longitude ------ */
             fetch("https://api.ambeedata.com/latest/fire?lat=" + latitude + "&lng=" + longitude, {
                 "method": "GET",
                 "headers": {
@@ -56,33 +61,54 @@ zipSubmit.on('click', function () {
                     return response.json()
                 })
                 .then(function (data) {
-                    console.log(data);
+
+                    fireMessage = data.message;
+                    if(!(fireMessage === "No fires were detected")){
+                        L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
+                    }
+                    else{
+                    }
+                    
                 })
                     fireLatitude = data.data[0].latitude;
                     fireLongitude = data.data[0].longitude;
-                    console.log(fireLatitude);
-                    console.log(fireLongitude);
+           
+					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + latitude + "&lng=" + longitude, {
+					"method": "GET",
+					    "headers": {
+							"x-api-key": "bcdc320dee6e51c49f7af1f5a7d6cdb150c47a4475a4df5fc55f94fcbd7b6595",
+							"Content-type": "application/json"
+						}
+					})
 
-                    $('.mapPhoto').css("display", "none");
-                    map = L.map("mapid").setView([latitude, longitude], 13);
+						.then(function (response) {
+							return response.json()
+						})
+						.then(function (data) {
+							
+							airQuality=data.stations[0].AQI;
+							airQuality= airQuality.toString()
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
 
-                    fireIcon = L.icon({
+                            $('.mapPhoto').css("display", "none");
+                            map = L.map("mapid").setView([latitude, longitude], 13);
 
-                        iconUrl: './assets/images/fireEMOJI1.png',
-                    
-                        iconSize:     [95, 95], // size of the icon
-                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-                    });
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            }).addTo(map);
 
-                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup(airQuality);
+                            fireIcon = L.icon({
+
+                                iconUrl: './assets/images/fireEMOJI1.png',
+                            
+                                iconSize:     [95, 95], // size of the icon
+                                iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                                popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                            });
+
+                            L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup(airQuality);
         })
 
 })
-
 
 
