@@ -54,12 +54,12 @@ zipSubmit.on('click', function () {
             return response.json()
         })
         .then(function (data) {
-            console.log(data);
+            //console.log(data);
 
             latitude = data.data[0].latitude;
             longitude = data.data[0].longitude;
-            console.log(latitude);
-            console.log(longitude);
+            //console.log(latitude);
+            //console.log(longitude);
 
 
             /* ------ fetches the fire informaiton via latitude/longitude ------ */
