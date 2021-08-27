@@ -21,6 +21,7 @@ var map;
 var fireIcon;
 var radiusIcon;
 var airQuality;
+
 var fireMessage;
 
 // code for live time/date (optional / not in use)
@@ -65,7 +66,7 @@ zipSubmit.on('click', function () {
                     return response.json()
                 })
                 .then(function (data) {
-                    
+
                     fireMessage = data.message;
                     if(!(fireMessage === "No fires were detected")){
                         L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
@@ -110,6 +111,13 @@ zipSubmit.on('click', function () {
 
                     fireIcon = L.icon({
                         
+                        iconUrl: 'leaf-green.png',
+                        // shadowUrl: 'leaf-shadow.png',
+                    
+                        iconSize:     [38, 95], // size of the icon
+                        // shadowSize:   [50, 64], // size of the shadow
+                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                        // shadowAnchor: [4, 62],  // the same for the shadow
                         iconUrl: './assets/images/fireEMOJI1.png',
                         title: 'run, run, run.....!!!',                        
                         riseOffset: 250,
@@ -118,15 +126,34 @@ zipSubmit.on('click', function () {
                         popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
                     });
 
-
                     });
 
                 
 
 
+                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map);
+                    
+
+                    radiusIcon = L.icon({
+
+                        iconUrl: './assets/images/radiusEMOJI.png',
+                        //shadowUrl: 'leaf-shadow.png',
+
+                        riseOffset: 0,
+                        opacity: 400,
+                        iconSize:     [45, 35], // size of the icon
+                        //shadowSize:   [50, 64], // size of the shadow
+                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                        //shadowAnchor: [4, 62],  // the same for the shadow
+                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+
+                    });
+
+                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
                  
 				})
         })
 
+})
 
 
