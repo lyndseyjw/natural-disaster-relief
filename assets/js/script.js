@@ -25,6 +25,8 @@ var fireIcon;
 var radiusIcon;
 var airQuality;
 
+var fireMessage;
+
 // code for live time/date (optional / not in use)
 var liveTime = document.querySelector(".timer");
 var timer = setInterval(function () {
@@ -54,6 +56,7 @@ zipSubmit.on('click', function () {
             console.log(latitude);
             console.log(longitude);
 
+
             /* ------ fetches the fire informaiton via latitude/longitude ------ */
             fetch("https://api.ambeedata.com/latest/fire?lat=" + latitude + "&lng=" + longitude, {
                 "method": "GET",
@@ -66,7 +69,15 @@ zipSubmit.on('click', function () {
                     return response.json()
                 })
                 .then(function (data) {
-                    console.log(data);
+
+                    fireMessage = data.message;
+                    if(!(fireMessage === "No fires were detected")){
+                        L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
+                    }
+                    else{
+                        console.log("NO Fire!");
+                    }
+                    
                 })
                     fireLatitude = data.data[0].latitude;
                     fireLongitude = data.data[0].longitude;
@@ -123,6 +134,11 @@ zipSubmit.on('click', function () {
                         popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
                     });
 
+                    });
+
+                
+
+
                     L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map);
                     
 
@@ -147,6 +163,5 @@ zipSubmit.on('click', function () {
         })
 
 })
-
 
 
