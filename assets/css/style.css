@@ -58,6 +58,17 @@ h1 {
     z-index: 2;
     top: 100px;
     left: 150px;
+    align-items: center;
+}
+
+.zipCard {
+
+    text-align: center;
+    color: white;
+    margin-top: 10px;
+    margin-left: 60px;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 p {

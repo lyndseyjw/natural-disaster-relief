@@ -8,9 +8,6 @@ var zipInput = $('.zipInput');
 var zipSubmit = $('.zipSubmitButton');
 
 var zipInput = $('.zipInput');
-// zipInput = input.val();
-
-// var zipInput = input.val();
 
 // creating a variable for the container of the map
 var mapDiv = $('#mapid');
@@ -24,6 +21,7 @@ var map;
 var fireIcon;
 var radiusIcon;
 var airQuality;
+var fireMessage;
 
 // code for live time/date (optional / not in use)
 var liveTime = document.querySelector(".timer");
@@ -54,6 +52,7 @@ zipSubmit.on('click', function () {
             //console.log(latitude);
             //console.log(longitude);
 
+
             /* ------ fetches the fire informaiton via latitude/longitude ------ */
             fetch("https://api.ambeedata.com/latest/fire?lat=" + latitude + "&lng=" + longitude, {
                 "method": "GET",
@@ -66,14 +65,18 @@ zipSubmit.on('click', function () {
                     return response.json()
                 })
                 .then(function (data) {
-                    console.log(data);
+
+                    fireMessage = data.message;
+                    if(!(fireMessage === "No fires were detected")){
+                        L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
+                    }
+                    else{
+                    }
+                    
                 })
                     fireLatitude = data.data[0].latitude;
                     fireLongitude = data.data[0].longitude;
-                    console.log(fireLatitude);
-                    console.log(fireLongitude);
-
-                    /* ------ fetches the air quality information via latitude/longitude ------ */
+           
 					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + latitude + "&lng=" + longitude, {
 					"method": "GET",
 					    "headers": {
@@ -86,12 +89,9 @@ zipSubmit.on('click', function () {
 							return response.json()
 						})
 						.then(function (data) {
-							console.log(data);
 							
 							airQuality=data.stations[0].AQI;
-							// console.log(typeof airQuality)
 							airQuality= airQuality.toString()
-							console.log(typeof airQuality)
 
 
                     $('.mapPhoto').css("display", "none");
@@ -104,27 +104,20 @@ zipSubmit.on('click', function () {
                     /* ------ Icon for the fire location ------ */
 
                     fireIcon = L.icon({
-  
                         iconUrl: './assets/images/fireEMOJI1.png',
-                        title: 'run, run, run.....!!!',
-                        //shadowUrl: 'leaf-shadow.png',
-                        
+                        iconSize:     [38, 95], // size of the icon
+                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location 
+                        title: 'run, run, run.....!!!',                        
                         riseOffset: 250,
                         iconSize:     [38, 45], // size of the icon
-                        //shadowSize:   [50, 64], // size of the shadow
                         iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                        //shadowAnchor: [4, 62],  // the same for the shadow
                         popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
                     });
 
-                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map);
+                    });
 
-                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
-                 
-				})
-        })
+                    });
 
 })
-
 
 
