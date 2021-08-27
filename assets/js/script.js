@@ -131,8 +131,8 @@ zipSubmit.on('click', function () {
                         popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 
                     });
-
-                    L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
+				   
+				   L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
                  
 				})
         })
