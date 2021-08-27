@@ -60,6 +60,8 @@ h1 {
     align-items: center;
 }
 
+
+/* ------ styling for card item (Bootstrap) ------ */
 .zipCard {
 
     text-align: center;
@@ -70,6 +72,14 @@ h1 {
     padding: 10px;
 }
 
+.savedZipList {
+
+    padding-top: 7px;
+    list-style-type: none;
+}
+
+
+/* ------ other styling ------ */
 p {
 
     color: white;
