@@ -90,7 +90,6 @@ zipSubmit.on('click', function () {
                     "x-api-key": "bcdc320dee6e51c49f7af1f5a7d6cdb150c47a4475a4df5fc55f94fcbd7b6595",
                     "Content-type": "application/json"
                 }
-            })
                 .then(function (response) {
                     return response.json()
                 })
@@ -131,6 +130,7 @@ zipSubmit.on('click', function () {
                     })
         })
 
+})
 })
 })
 
