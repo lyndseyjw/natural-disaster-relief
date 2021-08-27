@@ -68,11 +68,35 @@ zipSubmit.on('click', function () {
             //console.log(longitude);
 
             $('.mapPhoto').css("display", "none");
-                    map = L.map("mapid").setView([latitude, longitude], 13);
+            map = L.map("mapid").setView([latitude, longitude], 13);
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            /* ------ fetches the fire informaiton via latitude/longitude ------ */
+            fetch("https://api.ambeedata.com/latest/fire?lat=" + latitude + "&lng=" + longitude, {
+                "method": "GET",
+                "headers": {
+                    "x-api-key": "bcdc320dee6e51c49f7af1f5a7d6cdb150c47a4475a4df5fc55f94fcbd7b6595",
+                    "Content-type": "application/json"
+                }
+            })
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(function (data) {
+
+                    console.log(data);
+                    fireLatitude = data.data[0].lat;
+                    fireLongitude = data.data[0].lng;
+                    console.log(fireLatitude);
+                    fireMessage = data.message;
+                    return fireMessage;
+                })
+                .then(function(fireMessage) {
+
+                    console.log(fireMessage);
 
                     fireIcon = L.icon({
 
@@ -82,37 +106,9 @@ zipSubmit.on('click', function () {
                         iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
                         popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
                     });
-
-            /* ------ fetches the fire informaiton via latitude/longitude ------ */
-            fetch("https://api.ambeedata.com/latest/fire?lat=" + latitude + "&lng=" + longitude, {
-                "method": "GET",
-                "headers": {
-                    "x-api-key": "bcdc320dee6e51c49f7af1f5a7d6cdb150c47a4475a4df5fc55f94fcbd7b6595",
-                    "Content-type": "application/json"
-                }
-                .then(function (response) {
-                    return response.json()
-                })
-                .then(function (data) {
-
-                    fireLatitude = data.data[0].latitude;
-                    fireLongitude = data.data[0].longitude;
-                    fireMessage = data.message;
-                
-                })
-
-                .then(function(fireMessage) {
-
-                    console.log(fireMessage);
-
-                    if(!(fireMessage === "No fires were detected")){
-                        L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("Air Quality: " + airQuality );
-                    }
-                    else{
-                    }
            
                     /* ------ fetches the air quality via latitude/lognitude ------ */
-					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + latitude + "&lng=" + longitude, {
+					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + fireLatitude + "&lng=" + fireLongitude, {
 					"method": "GET",
 					    "headers": {
 							"x-api-key": "bcdc320dee6e51c49f7af1f5a7d6cdb150c47a4475a4df5fc55f94fcbd7b6595",
@@ -124,14 +120,19 @@ zipSubmit.on('click', function () {
 							return response.json()
 						})
 						.then(function (data) {
-							
+							console.log(data)
 							airQuality=data.stations[0].AQI;
 							airQuality= airQuality.toString()
+
+                            if(!(fireMessage === "No fires were detected")){
+                                L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("Air Quality: " + airQuality );
+                            }
+                            else{
+                        }
                         
                     })
         })
 
-})
 })
 })
 
