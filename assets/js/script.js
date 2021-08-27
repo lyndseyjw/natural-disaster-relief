@@ -12,6 +12,8 @@ var zipInput = $('.zipInput');
 // creating a variable for the container of the map
 var mapDiv = $('#mapid');
 
+var zipCard = $('.zipCard');
+
 var latitude;
 var longitude;
 var fireLatitude;
