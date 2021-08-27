@@ -8,9 +8,6 @@ var zipInput = $('.zipInput');
 var zipSubmit = $('.zipSubmitButton');
 
 var zipInput = $('.zipInput');
-// zipInput = input.val();
-
-// var zipInput = input.val();
 
 // creating a variable for the container of the map
 var mapDiv = $('#mapid');
@@ -99,7 +96,6 @@ zipSubmit.on('click', function () {
 							console.log(data);
 							
 							airQuality=data.stations[0].AQI;
-							// console.log(typeof airQuality)
 							airQuality= airQuality.toString()
 							console.log(typeof airQuality)
 
@@ -123,14 +119,10 @@ zipSubmit.on('click', function () {
                         iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
                         // shadowAnchor: [4, 62],  // the same for the shadow
                         iconUrl: './assets/images/fireEMOJI1.png',
-                        title: 'run, run, run.....!!!',
-                        //shadowUrl: 'leaf-shadow.png',
-                        
+                        title: 'run, run, run.....!!!',                        
                         riseOffset: 250,
                         iconSize:     [38, 45], // size of the icon
-                        //shadowSize:   [50, 64], // size of the shadow
                         iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                        //shadowAnchor: [4, 62],  // the same for the shadow
                         popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
                     });
 
