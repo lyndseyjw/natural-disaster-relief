@@ -12,7 +12,9 @@ var zipInput = $('.zipInput');
 // creating a variable for the container of the map
 var mapDiv = $('#mapid');
 
-var zipCard = $('.zipCard');
+var zipCard =$('.zipCard');
+
+var savedZipList=$('.savedZipList');
 
 var latitude;
 var longitude;
@@ -23,7 +25,7 @@ var fireIcon;
 var radiusIcon;
 var airQuality;
 var fireMessage;
-var savedZips;
+var savedZips = [];
 
 var liveTime = document.querySelector(".timer");
 var timer = setInterval(function () {
@@ -42,12 +44,14 @@ zipSubmit.on('click', function () {
 
     savedZips = JSON.parse(localStorage.getItem("zips"));
 
-    var button = $("<button>");
-    button.text(savedZips.slice(-1).pop());
+    var listItem = $("<li>");
+    listItem.text(savedZips.slice(-1).pop());
+    listItem.attr("style", "margin:0 auto;");
+    // button.attr("style", "margin-right:20px;");
     // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)");
-    zipCard.append(button);
+    savedZipList.append(listItem);
 
-    zipInputVal.val('');
+    zipInput.val('');
 
     var positionStackURL = 'http://api.positionstack.com/v1/forward?access_key=504536cca90d4c48fb032176b5240b9c&query=' + zipInputVal
 
@@ -63,6 +67,21 @@ zipSubmit.on('click', function () {
             //console.log(latitude);
             //console.log(longitude);
 
+            $('.mapPhoto').css("display", "none");
+                    map = L.map("mapid").setView([latitude, longitude], 13);
+
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+
+                    fireIcon = L.icon({
+
+                        iconUrl: './assets/images/fireEMOJI1.png',
+                    
+                        iconSize:     [95, 95], // size of the icon
+                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                    });
 
             /* ------ fetches the fire informaiton via latitude/longitude ------ */
             fetch("https://api.ambeedata.com/latest/fire?lat=" + latitude + "&lng=" + longitude, {
@@ -77,15 +96,21 @@ zipSubmit.on('click', function () {
                 })
                 .then(function (data) {
 
+                    fireLatitude = data.data[0].latitude;
+                    fireLongitude = data.data[0].longitude;
                     fireMessage = data.message;
+                
+                })
+
+                .then(function(fireMessage) {
+
+                    console.log(fireMessage);
+
                     if(!(fireMessage === "No fires were detected")){
-                        L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
+                        L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("Air Quality: " + airQuality );
                     }
                     else{
                     }
-                    
-                    fireLatitude = data.data[0].latitude;
-                    fireLongitude = data.data[0].longitude;
            
 					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + latitude + "&lng=" + longitude, {
 					"method": "GET",
@@ -102,24 +127,8 @@ zipSubmit.on('click', function () {
 							
 							airQuality=data.stations[0].AQI;
 							airQuality= airQuality.toString()
-
-
-                            $('.mapPhoto').css("display", "none");
-                            map = L.map("mapid").setView([latitude, longitude], 13);
-
-                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            }).addTo(map);
-
-                            fireIcon = L.icon({
-
-                                iconUrl: './assets/images/fireEMOJI1.png',
-                            
-                                iconSize:     [95, 95], // size of the icon
-                                iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                                popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-                            });
-                        })
+                        
+                    })
         })
 
 })
@@ -133,11 +142,12 @@ function displayZips() {
 
         for (var i = 0; i < savedZips.length; i++) {
         
-            var button = $("<button>");
-            button.text(savedZips[i]);
-            // button.attr("data-zip", savedZips[i]);
-            // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)")
-            zipCard.append(button);
+            var listItem = $("<li>");
+            listItem.text(savedZips.slice(-1).pop());
+            listItem.attr("style", "margin:0 auto;");
+            // button.attr("style", "margin-right:20px;");
+            // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)");
+            savedZipList.append(listItem);
         }
     }
 }
