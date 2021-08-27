@@ -12,6 +12,10 @@ var zipInput = $('.zipInput');
 // creating a variable for the container of the map
 var mapDiv = $('#mapid');
 
+var zipCard =$('.zipCard');
+
+var savedZipList=$('.savedZipList');
+
 var latitude;
 var longitude;
 var fireLatitude;
@@ -40,12 +44,14 @@ zipSubmit.on('click', function () {
 
     savedZips = JSON.parse(localStorage.getItem("zips"));
 
-    var button = $("<button>");
-    button.text(savedZips.slice(-1).pop());
+    var listItem = $("<li>");
+    listItem.text(savedZips.slice(-1).pop());
+    listItem.attr("style", "margin:0 auto;");
+    // button.attr("style", "margin-right:20px;");
     // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)");
-    zipCard.append(button);
+    savedZipList.append(listItem);
 
-    zipInputVal.val('');
+    zipInput.val('');
 
     var positionStackURL = 'http://api.positionstack.com/v1/forward?access_key=504536cca90d4c48fb032176b5240b9c&query=' + zipInputVal
 
@@ -108,6 +114,7 @@ zipSubmit.on('click', function () {
                     else{
                     }
            
+                    /* ------ fetches the air quality via latitude/lognitude ------ */
 					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + latitude + "&lng=" + longitude, {
 					"method": "GET",
 					    "headers": {
@@ -138,11 +145,12 @@ function displayZips() {
 
         for (var i = 0; i < savedZips.length; i++) {
         
-            var button = $("<button>");
-            button.text(savedZips[i]);
-            // button.attr("data-zip", savedZips[i]);
-            // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)")
-            zipCard.append(button);
+            var listItem = $("<li>");
+            listItem.text(savedZips.slice(-1).pop());
+            listItem.attr("style", "margin:0 auto;");
+            // button.attr("style", "margin-right:20px;");
+            // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)");
+            savedZipList.append(listItem);
         }
     }
 }
