@@ -21,7 +21,7 @@ var fireIcon;
 var radiusIcon;
 var airQuality;
 var fireMessage;
-var savedZips;
+var savedZips = [];
 
 var liveTime = document.querySelector(".timer");
 var timer = setInterval(function () {
@@ -61,6 +61,21 @@ zipSubmit.on('click', function () {
             console.log(latitude);
             console.log(longitude);
 
+            $('.mapPhoto').css("display", "none");
+                    map = L.map("mapid").setView([latitude, longitude], 13);
+
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+
+                    fireIcon = L.icon({
+
+                        iconUrl: './assets/images/fireEMOJI1.png',
+                    
+                        iconSize:     [95, 95], // size of the icon
+                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                    });
 
             /* ------ fetches the fire informaiton via latitude/longitude ------ */
             fetch("https://api.ambeedata.com/latest/fire?lat=" + latitude + "&lng=" + longitude, {
@@ -75,15 +90,21 @@ zipSubmit.on('click', function () {
                 })
                 .then(function (data) {
 
+                    fireLatitude = data.data[0].latitude;
+                    fireLongitude = data.data[0].longitude;
                     fireMessage = data.message;
+                
+                })
+
+                .then(function(fireMessage) {
+
+                    console.log(fireMessage);
+
                     if(!(fireMessage === "No fires were detected")){
-                        L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("air Quality; " + airQuality );
+                        L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("Air Quality: " + airQuality );
                     }
                     else{
                     }
-                    
-                    fireLatitude = data.data[0].latitude;
-                    fireLongitude = data.data[0].longitude;
            
 					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + latitude + "&lng=" + longitude, {
 					"method": "GET",
@@ -100,24 +121,8 @@ zipSubmit.on('click', function () {
 							
 							airQuality=data.stations[0].AQI;
 							airQuality= airQuality.toString()
-
-
-                            $('.mapPhoto').css("display", "none");
-                            map = L.map("mapid").setView([latitude, longitude], 13);
-
-                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            }).addTo(map);
-
-                            fireIcon = L.icon({
-
-                                iconUrl: './assets/images/fireEMOJI1.png',
-                            
-                                iconSize:     [95, 95], // size of the icon
-                                iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                                popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-                            });
-                        })
+                        
+                    })
         })
 
 })
