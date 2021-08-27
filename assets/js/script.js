@@ -12,7 +12,6 @@ var zipInput = $('.zipInput');
 // creating a variable for the container of the map
 var mapDiv = $('#mapid');
 
-// global variables for fetch functions
 var latitude;
 var longitude;
 var fireLatitude;
@@ -22,8 +21,8 @@ var fireIcon;
 var radiusIcon;
 var airQuality;
 var fireMessage;
+var savedZips;
 
-// code for live time/date (optional / not in use)
 var liveTime = document.querySelector(".timer");
 var timer = setInterval(function () {
 
@@ -32,14 +31,24 @@ var timer = setInterval(function () {
 
 }, 1000);
 
-/* ------ Initiates all of the fetches ------ */
 zipSubmit.on('click', function () {
 
     var zipInputVal = zipInput.val();
 
+    savedZips.push(zipInputVal);
+    localStorage.setItem("zips", JSON.stringify(savedZips));
+
+    savedZips = JSON.parse(localStorage.getItem("zips"));
+
+    var button = $("<button>");
+    button.text(savedZips.slice(-1).pop());
+    // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)");
+    zipCard.append(button);
+
+    zipInputVal.val('');
+
     var positionStackURL = 'http://api.positionstack.com/v1/forward?access_key=504536cca90d4c48fb032176b5240b9c&query=' + zipInputVal
 
-    /* ------ fetches the longitude and latitued for the fire/air quality api ------ */
     fetch(positionStackURL)
         .then(function (response) {
             return response.json()
@@ -73,7 +82,6 @@ zipSubmit.on('click', function () {
                     else{
                     }
                     
-                })
                     fireLatitude = data.data[0].latitude;
                     fireLongitude = data.data[0].longitude;
            
@@ -94,30 +102,42 @@ zipSubmit.on('click', function () {
 							airQuality= airQuality.toString()
 
 
-                    $('.mapPhoto').css("display", "none");
-                    map = L.map("mapid").setView([latitude, longitude], 13);
+                            $('.mapPhoto').css("display", "none");
+                            map = L.map("mapid").setView([latitude, longitude], 13);
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            }).addTo(map);
 
-                    /* ------ Icon for the fire location ------ */
+                            fireIcon = L.icon({
 
-                    fireIcon = L.icon({
-                        iconUrl: './assets/images/fireEMOJI1.png',
-                        iconSize:     [38, 95], // size of the icon
-                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location 
-                        title: 'run, run, run.....!!!',                        
-                        riseOffset: 250,
-                        iconSize:     [38, 45], // size of the icon
-                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-                    });
-
-                    });
-
-                    });
+                                iconUrl: './assets/images/fireEMOJI1.png',
+                            
+                                iconSize:     [95, 95], // size of the icon
+                                iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                                popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                            });
+                        })
+        })
 
 })
+})
 
+function displayZips() {
 
+    if (localStorage.getItem("zips")) {
+
+        savedZips = JSON.parse(localStorage.getItem("zips"));
+
+        for (var i = 0; i < savedZips.length; i++) {
+        
+            var button = $("<button>");
+            button.text(savedZips[i]);
+            // button.attr("data-zip", savedZips[i]);
+            // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)")
+            zipCard.append(button);
+        }
+    }
+}
+
+displayZips();
