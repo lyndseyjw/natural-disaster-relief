@@ -21,6 +21,7 @@ var fireIcon;
 var radiusIcon;
 var airQuality;
 var fireMessage;
+var savedZips;
 
 var liveTime = document.querySelector(".timer");
 var timer = setInterval(function () {
@@ -33,6 +34,18 @@ var timer = setInterval(function () {
 zipSubmit.on('click', function () {
 
     var zipInputVal = zipInput.val();
+
+    savedZips.push(zipInputVal);
+    localStorage.setItem("zips", JSON.stringify(savedZips));
+
+    savedZips = JSON.parse(localStorage.getItem("zips"));
+
+    var button = $("<button>");
+    button.text(savedZips.slice(-1).pop());
+    // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)");
+    zipCard.append(button);
+
+    zipInputVal.val('');
 
     var positionStackURL = 'http://api.positionstack.com/v1/forward?access_key=504536cca90d4c48fb032176b5240b9c&query=' + zipInputVal
 
@@ -69,7 +82,6 @@ zipSubmit.on('click', function () {
                     else{
                     }
                     
-                })
                     fireLatitude = data.data[0].latitude;
                     fireLongitude = data.data[0].longitude;
            
@@ -105,10 +117,27 @@ zipSubmit.on('click', function () {
                                 iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
                                 popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
                             });
-
-                            L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup(airQuality);
+                        })
         })
 
 })
+})
 
+function displayZips() {
 
+    if (localStorage.getItem("zips")) {
+
+        savedZips = JSON.parse(localStorage.getItem("zips"));
+
+        for (var i = 0; i < savedZips.length; i++) {
+        
+            var button = $("<button>");
+            button.text(savedZips[i]);
+            // button.attr("data-zip", savedZips[i]);
+            // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)")
+            zipCard.append(button);
+        }
+    }
+}
+
+displayZips();
