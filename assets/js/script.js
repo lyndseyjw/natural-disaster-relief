@@ -104,7 +104,7 @@ zipSubmit.on('click', function () {
 
                 .then(function(fireMessage) {
 
-                    console.log(fireMessage);
+                    //console.log(fireMessage);
 
                     if(!(fireMessage === "No fires were detected")){
                         L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("Air Quality: " + airQuality );
