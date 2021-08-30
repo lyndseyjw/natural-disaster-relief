@@ -145,10 +145,8 @@ function displayZips() {
         for (var i = 0; i < savedZips.length; i++) {
         
             var listItem = $("<li>");
-            listItem.text(savedZips.slice(-1).pop());
+            listItem.text(savedZips[i]);
             listItem.attr("style", "margin:0 auto;");
-            // button.attr("style", "margin-right:20px;");
-            // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)");
             savedZipList.append(listItem);
         }
     }
