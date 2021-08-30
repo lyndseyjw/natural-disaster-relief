@@ -95,6 +95,8 @@ zipSubmit.on('click', function () {
                     return response.json()
                 })
                 .then(function (data) {
+					fireLatitude = data.data[0].latitude;
+                    fireLongitude = data.data[0].longitude;
 
                     fireLatitude = data.data[0].latitude;
                     fireLongitude = data.data[0].longitude;
