@@ -47,8 +47,6 @@ zipSubmit.on('click', function () {
     var listItem = $("<li>");
     listItem.text(savedZips.slice(-1).pop());
     listItem.attr("style", "margin:0 auto;");
-    // button.attr("style", "margin-right:20px;");
-    // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)");
     savedZipList.append(listItem);
 
     zipInput.val('');
@@ -68,20 +66,11 @@ zipSubmit.on('click', function () {
             //console.log(longitude);
 
             $('.mapPhoto').css("display", "none");
-                    map = L.map("mapid").setView([latitude, longitude], 13);
+            map = L.map("mapid").setView([latitude, longitude], 13);
 
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
-
-                    fireIcon = L.icon({
-
-                        iconUrl: './assets/images/fireEMOJI1.png',
-                    
-                        iconSize:     [95, 95], // size of the icon
-                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-                    });
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
 
             /* ------ fetches the fire informaiton via latitude/longitude ------ */
             fetch("https://api.ambeedata.com/latest/fire?lat=" + latitude + "&lng=" + longitude, {
@@ -96,24 +85,28 @@ zipSubmit.on('click', function () {
                 })
                 .then(function (data) {
 
-                    fireLatitude = data.data[0].latitude;
-                    fireLongitude = data.data[0].longitude;
+                    console.log(data);
+                    fireLatitude = data.data[0].lat;
+                    fireLongitude = data.data[0].lng;
+                    console.log(fireLatitude);
                     fireMessage = data.message;
-                
+                    return fireMessage;
                 })
-
                 .then(function(fireMessage) {
 
                     //console.log(fireMessage);
 
-                    if(!(fireMessage === "No fires were detected")){
-                        L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("Air Quality: " + airQuality );
-                    }
-                    else{
-                    }
+                    fireIcon = L.icon({
+
+                        iconUrl: './assets/images/fireEMOJI1.png',
+                    
+                        iconSize:     [95, 95], // size of the icon
+                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                    });
            
                     /* ------ fetches the air quality via latitude/lognitude ------ */
-					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + latitude + "&lng=" + longitude + "&cnt=10", {
+					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + fireLatitude + "&lng=" + fireLongitude, {
 					"method": "GET",
 					    "headers": {
 							"x-api-key": "bcdc320dee6e51c49f7af1f5a7d6cdb150c47a4475a4df5fc55f94fcbd7b6595",
@@ -125,9 +118,15 @@ zipSubmit.on('click', function () {
 							return response.json()
 						})
 						.then(function (data) {
-							
+							console.log(data)
 							airQuality=data.stations[0].AQI;
 							airQuality= airQuality.toString()
+
+                            if(!(fireMessage === "No fires were detected")){
+                                L.marker([fireLatitude, fireLongitude], {icon: fireIcon}).addTo(map).bindPopup("Air Quality: " + airQuality );
+                            }
+                            else{
+                        }
                         
                     })
         })
@@ -144,10 +143,8 @@ function displayZips() {
         for (var i = 0; i < savedZips.length; i++) {
         
             var listItem = $("<li>");
-            listItem.text(savedZips.slice(-1).pop());
+            listItem.text(savedZips[i]);
             listItem.attr("style", "margin:0 auto;");
-            // button.attr("style", "margin-right:20px;");
-            // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)");
             savedZipList.append(listItem);
         }
     }
