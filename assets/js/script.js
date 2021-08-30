@@ -47,8 +47,6 @@ zipSubmit.on('click', function () {
     var listItem = $("<li>");
     listItem.text(savedZips.slice(-1).pop());
     listItem.attr("style", "margin:0 auto;");
-    // button.attr("style", "margin-right:20px;");
-    // button.attr("style", "background-color:rgb(219, 84, 97); color:rgb(241, 237, 238)");
     savedZipList.append(listItem);
 
     zipInput.val('');
@@ -86,8 +84,6 @@ zipSubmit.on('click', function () {
                     return response.json()
                 })
                 .then(function (data) {
-					fireLatitude = data.data[0].latitude;
-                    fireLongitude = data.data[0].longitude;
 
                     console.log(data);
                     fireLatitude = data.data[0].lat;
