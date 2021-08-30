@@ -113,7 +113,7 @@ zipSubmit.on('click', function () {
                     }
            
                     /* ------ fetches the air quality via latitude/lognitude ------ */
-					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + latitude + "&lng=" + longitude, {
+					fetch("https://api.ambeedata.com/latest/by-lat-lng?lat=" + latitude + "&lng=" + longitude + "&cnt=10", {
 					"method": "GET",
 					    "headers": {
 							"x-api-key": "bcdc320dee6e51c49f7af1f5a7d6cdb150c47a4475a4df5fc55f94fcbd7b6595",
