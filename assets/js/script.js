@@ -51,17 +51,19 @@ zipSubmit.on('click', function () {
 
     zipInput.val('');
 
-    var positionStackURL = 'http://api.positionstack.com/v1/forward?access_key=504536cca90d4c48fb032176b5240b9c&query=' + zipInputVal
+    // var positionStackURL = 'https://cors-anywhere.herokuapp.com/http://api.positionstack.com/v1/forward?access_key=504536cca90d4c48fb032176b5240b9c&query=' + zipInputVal
 
-    fetch(positionStackURL)
+    var openWeatherURL = 'https://api.openweathermap.org/data/2.5/weather?zip=' + zipInputVal + '&appid=ab330beac43f3deca21f334bab6bb536'
+    
+    fetch(openWeatherURL)
         .then(function (response) {
             return response.json()
         })
         .then(function (data) {
-            //console.log(data);
+            console.log(data);
 
-            latitude = data.data[0].latitude;
-            longitude = data.data[0].longitude;
+            latitude = data.coord.lat;
+            longitude = data.coord.lon;
             //console.log(latitude);
             //console.log(longitude);
 
