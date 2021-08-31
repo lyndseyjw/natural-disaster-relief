@@ -51,7 +51,7 @@ zipSubmit.on('click', function () {
 
     zipInput.val('');
 
-    var positionStackURL = 'http://api.positionstack.com/v1/forward?access_key=504536cca90d4c48fb032176b5240b9c&query=' + zipInputVal
+    var positionStackURL = 'https://api.positionstack.com/v1/forward?access_key=504536cca90d4c48fb032176b5240b9c&query=' + zipInputVal
 
     fetch(positionStackURL)
         .then(function (response) {
